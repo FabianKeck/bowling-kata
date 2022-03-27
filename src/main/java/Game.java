@@ -2,7 +2,7 @@ public class Game {
 
     private int count;
     public void roll(int i) {
-        count++;
+        count += i;
     }
 
     public int getScore() {

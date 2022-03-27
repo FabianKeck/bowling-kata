@@ -8,6 +8,9 @@ class GameTest {
         Game game = new Game();
 
         game.roll(1);
+        for (int i = 0; i < 19; i++) {
+            game.roll(0);
+        }
 
         Assertions.assertThat(game.getScore())
                 .isEqualTo(1);
@@ -20,9 +23,14 @@ class GameTest {
         game.roll(1);
         game.roll(1);
 
+        for (int i = 0; i < 18; i++) {
+            game.roll(0);
+        }
+
         Assertions.assertThat(game.getScore())
                 .isEqualTo(1 + 1);
     }
+
 
 
 }
