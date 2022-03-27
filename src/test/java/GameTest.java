@@ -13,6 +13,16 @@ class GameTest {
                 .isEqualTo(1);
     }
 
+    @Test
+    public void twoTimesOne() {
+        Game game = new Game();
+
+        game.roll(1);
+        game.roll(1);
+
+        Assertions.assertThat(game.getScore())
+                .isEqualTo(1 + 1);
+    }
 
 
 }
