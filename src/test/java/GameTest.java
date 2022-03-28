@@ -3,50 +3,48 @@ import org.junit.jupiter.api.Test;
 
 class GameTest {
 
+    private final Game game = new Game();
+
     @Test
     public void onePin() {
-        Game game = new Game();
 
-        game.roll(1);
-        for (int i = 0; i < 19; i++) {
-            game.roll(0);
-        }
+        this.game.roll(1);
+        rollZeros(19);
 
-        Assertions.assertThat(game.getScore())
+        Assertions.assertThat(this.game.getScore())
                 .isEqualTo(1);
     }
 
     @Test
     public void twoTimesOne() {
-        Game game = new Game();
 
-        game.roll(1);
-        game.roll(1);
+        this.game.roll(1);
+        this.game.roll(1);
 
-        for (int i = 0; i < 18; i++) {
-            game.roll(0);
-        }
+        rollZeros(18);
 
-        Assertions.assertThat(game.getScore())
+        Assertions.assertThat(this.game.getScore())
                 .isEqualTo(1 + 1);
     }
 
     @Test
     public void spare() {
-        Game game = new Game();
 
-        game.roll(5);
-        game.roll(5);
-        game.roll(4);
+        this.game.roll(5);
+        this.game.roll(5);
+        this.game.roll(4);
 
 
-        for (int i = 0; i < 18; i++) {
-            game.roll(0);
-        }
+        rollZeros(18);
 
-        Assertions.assertThat(game.getScore())
+        Assertions.assertThat(this.game.getScore())
                 .isEqualTo(14 + 4);
     }
 
+    private void rollZeros(int numRolls) {
+        for (int i = 0; i < numRolls; i++) {
+            this.game.roll(0);
+        }
+    }
 
 }
