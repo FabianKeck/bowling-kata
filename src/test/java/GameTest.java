@@ -67,13 +67,23 @@ class GameTest {
                 .isEqualTo(18 + 8);
     }
 
+    @Test
+    public void twoStrikes() {
+        this.game.roll(10);
+        this.game.roll(10);
+        this.game.roll(5);
+        this.game.roll(3);
+
+        rollZeros(16);
+
+        Assertions.assertThat(this.game.getScore())
+                .isEqualTo(25 + 18 + 8);
+    }
+
 
     private void rollZeros(int numRolls) {
         for (int i = 0; i < numRolls; i++) {
             this.game.roll(0);
         }
     }
-
-
-
 }

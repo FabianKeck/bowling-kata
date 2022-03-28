@@ -63,7 +63,11 @@ public class Game {
             if (frames.get(i).isSpare()) {
                 bonus += frames.get(i + 1).getFirst();
             } else if (frames.get(i).isStrike()) {
-                bonus += frames.get(i + 1).getTotal();
+                if (frames.get(i + 1).isStrike()){
+                    bonus += frames.get(i + 1).getFirst() + frames.get(i + 2).getFirst();
+                } else {
+                    bonus += frames.get(i + 1).getTotal();
+                }
             }
         }
         return bonus;
