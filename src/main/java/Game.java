@@ -11,12 +11,24 @@ public class Game {
             this.second = second;
         }
 
+        public Frame(int first) {
+            this (first, 0);
+        }
+
         public boolean isSpare() {
-            return first + second == 10;
+            return first + second == 10 && ! isStrike();
         }
 
         public int getFirst() {
             return first;
+        }
+
+        public boolean isStrike() {
+            return first == 10;
+        }
+
+        public int getTotal() {
+            return first + second;
         }
     }
     private final List<Integer> rolls = new ArrayList<>();
@@ -34,8 +46,13 @@ public class Game {
 
     private List<Frame> extractFrames() {
         List<Frame> frames = new ArrayList<>();
-        for (int i = 2; i < rolls.size(); i += 2) {
-            frames.add(new Frame(rolls.get(i - 2), rolls.get(i - 1)));
+        for (int i = 0; i < rolls.size() - 2; i++) {
+            if (rolls.get(i) == 10) {
+                frames.add(new Frame(10));
+            } else {
+                frames.add(new Frame(rolls.get(i), rolls.get(i + 1)));
+                i++;
+            }
         }
         return frames;
     }
@@ -45,6 +62,8 @@ public class Game {
         for (int i = 0; i < frames.size(); i++) {
             if (frames.get(i).isSpare()) {
                 bonus += frames.get(i + 1).getFirst();
+            } else if (frames.get(i).isStrike()) {
+                bonus += frames.get(i + 1).getTotal();
             }
         }
         return bonus;
