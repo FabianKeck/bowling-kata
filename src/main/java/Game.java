@@ -6,23 +6,16 @@ public class Game {
     public static final Integer MAX_PINS = 10;
     public static final int MAX_FRAMES = 10;
 
-    private final List<Integer> rolls = new ArrayList<>();
+    private final Frames frames = new Frames();
 
     public void roll(int pins) {
-        rolls.add(pins);
+        frames.addRoll(pins);
     }
 
     public int getScore() {
-        List<Frame> frames = extractFrames();
         int sum = frames.subList(0, MAX_FRAMES).stream().mapToInt(Frame::getTotal).sum();
         int bonus = getBonus(frames);
         return sum + bonus;
-    }
-
-    private List<Frame> extractFrames() {
-        Frames frames1 = new Frames();
-        rolls.forEach(frames1::addRoll);
-        return frames1;
     }
 
     private int getBonus(List<Frame> frames) {
@@ -79,6 +72,7 @@ public class Game {
     }
 
     private class Frames extends ArrayList<Frame> {
+
         public void addRoll(int numPins) {
             if (this.isEmpty() || last().isFinished()) {
                 add(new Frame(numPins));
