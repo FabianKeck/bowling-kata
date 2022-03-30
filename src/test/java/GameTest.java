@@ -100,6 +100,18 @@ class GameTest {
                 .isEqualTo(300);
     }
 
+    @Test
+    public void allSpares() {
+        for (int i = 0; i < 21; i++) {
+            this.game.roll(5);
+        }
+
+
+        Assertions.assertThat(this.game.getScore())
+                .isEqualTo(10 * 15);
+    }
+
+
 
     private void rollZeros(int numRolls) {
         rollTimes(numRolls, 0);
