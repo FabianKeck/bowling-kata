@@ -3,38 +3,56 @@ import java.util.List;
 
 public class Game {
 
-    public static final int MAX_PINS = 10;
+    public static final Integer MAX_PINS = 10;
     public static final int MAX_FRAMES = 10;
 
     private static class Frame {
-        private final int first;
-        private final int second;
+
+        List<Integer> rolls =new ArrayList<>();
 
         public Frame(int first, int second) {
-            this.first = first;
-            this.second = second;
+            rolls.add(first);
+            rolls.add(second);
         }
-
-        public Frame(int first) {
-            this (first, 0);
+        public static Frame strike() {
+            return new Frame(MAX_PINS, 0);
         }
 
         public boolean isSpare() {
-            return first + second == MAX_PINS && ! isStrike();
+            return MAX_PINS.equals(getTotal()) && ! isStrike();
         }
 
         public int getFirst() {
-            return first;
+            return rolls.get(0);
         }
 
         public boolean isStrike() {
-            return first == MAX_PINS;
+            return MAX_PINS.equals(rolls.get(0));
         }
 
         public int getTotal() {
-            return first + second;
+            return rolls.stream().mapToInt(i -> i).sum();
         }
+
+        public void roll(int numPins) {
+            if (isFinished()) {
+                throw new IllegalArgumentException("This Frame is closed");
+            }
+            rolls.add(numPins);
+        }
+
+        private boolean isFinished() {
+            return rolls.size() == 2 || isStrike();
+        }
+
     }
+
+//    private class Frames extends ArrayList<Frame> {
+//        public void addRoll() {
+//            get(size() - 1).roll();
+//        }
+//    }
+
     private final List<Integer> rolls = new ArrayList<>();
 
     public void roll(int pins) {
@@ -51,12 +69,9 @@ public class Game {
     private List<Frame> extractFrames() {
         List<Frame> frames = new ArrayList<>();
         for (int i = 0; i < rolls.size(); i++) {
-            if (rolls.get(i) == MAX_PINS) {
-                frames.add(new Frame(MAX_PINS));
+            if (MAX_PINS.equals(rolls.get(i))) {
+                frames.add(Frame.strike());
             } else {
-                if (rolls.size() < i + 2) {
-                    continue;
-                }
                 frames.add(new Frame(rolls.get(i), rolls.get(i + 1)));
                 i++;
             }
