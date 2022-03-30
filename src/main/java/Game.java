@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Game {
@@ -38,28 +39,32 @@ public class Game {
     }
 
     public int getScore() {
-        int sum = rolls.stream().mapToInt(i -> i).sum();
         List<Frame> frames = extractFrames();
+        int sum = frames.subList(0,10).stream().mapToInt(Frame::getTotal).sum();
         int bonus = getBonus(frames);
         return sum + bonus;
     }
 
     private List<Frame> extractFrames() {
         List<Frame> frames = new ArrayList<>();
-        for (int i = 0; i < rolls.size() - 1; i++) {
+        for (int i = 0; i < rolls.size(); i++) {
             if (rolls.get(i) == 10) {
                 frames.add(new Frame(10));
             } else {
+                if (rolls.size() < i + 2) {
+                    continue;
+                }
                 frames.add(new Frame(rolls.get(i), rolls.get(i + 1)));
                 i++;
             }
         }
+
         return frames;
     }
 
     private int getBonus(List<Frame> frames) {
         int bonus = 0;
-        for (int i = 0; i < frames.size(); i++) {
+        for (int i = 0; i < frames.size() && i < 10; i++) {
             if (frames.get(i).isSpare()) {
                 bonus += frames.get(i + 1).getFirst();
             } else if (frames.get(i).isStrike()) {

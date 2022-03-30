@@ -89,6 +89,16 @@ class GameTest {
                 .isEqualTo(20 * numPins);
     }
 
+    @Test
+    public void allStrikes() {
+        for (int i = 0; i < 12; i++) {
+            this.game.roll(10);
+        }
+
+
+        Assertions.assertThat(this.game.getScore())
+                .isEqualTo(300);
+    }
 
 
     private void rollZeros(int numRolls) {
