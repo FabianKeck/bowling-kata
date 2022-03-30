@@ -46,7 +46,7 @@ public class Game {
 
     private List<Frame> extractFrames() {
         List<Frame> frames = new ArrayList<>();
-        for (int i = 0; i < rolls.size() - 2; i++) {
+        for (int i = 0; i < rolls.size() - 1; i++) {
             if (rolls.get(i) == 10) {
                 frames.add(new Frame(10));
             } else {

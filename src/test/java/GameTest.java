@@ -80,10 +80,24 @@ class GameTest {
                 .isEqualTo(25 + 18 + 8);
     }
 
+    @Test
+    public void allFours() {
+        int numPins = 4;
+        rollTimes(20, numPins);
+
+        Assertions.assertThat(this.game.getScore())
+                .isEqualTo(20 * numPins);
+    }
+
+
 
     private void rollZeros(int numRolls) {
+        rollTimes(numRolls, 0);
+    }
+
+    private void rollTimes(int numRolls, int numPins) {
         for (int i = 0; i < numRolls; i++) {
-            this.game.roll(0);
+            this.game.roll(numPins);
         }
     }
 }
