@@ -1,9 +1,12 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Game {
-    private class Frame {
+
+    public static final int MAX_PINS = 10;
+    public static final int MAX_FRAMES = 10;
+
+    private static class Frame {
         private final int first;
         private final int second;
 
@@ -17,7 +20,7 @@ public class Game {
         }
 
         public boolean isSpare() {
-            return first + second == 10 && ! isStrike();
+            return first + second == MAX_PINS && ! isStrike();
         }
 
         public int getFirst() {
@@ -25,7 +28,7 @@ public class Game {
         }
 
         public boolean isStrike() {
-            return first == 10;
+            return first == MAX_PINS;
         }
 
         public int getTotal() {
@@ -40,7 +43,7 @@ public class Game {
 
     public int getScore() {
         List<Frame> frames = extractFrames();
-        int sum = frames.subList(0,10).stream().mapToInt(Frame::getTotal).sum();
+        int sum = frames.subList(0, MAX_FRAMES).stream().mapToInt(Frame::getTotal).sum();
         int bonus = getBonus(frames);
         return sum + bonus;
     }
@@ -48,8 +51,8 @@ public class Game {
     private List<Frame> extractFrames() {
         List<Frame> frames = new ArrayList<>();
         for (int i = 0; i < rolls.size(); i++) {
-            if (rolls.get(i) == 10) {
-                frames.add(new Frame(10));
+            if (rolls.get(i) == MAX_PINS) {
+                frames.add(new Frame(MAX_PINS));
             } else {
                 if (rolls.size() < i + 2) {
                     continue;
@@ -64,7 +67,7 @@ public class Game {
 
     private int getBonus(List<Frame> frames) {
         int bonus = 0;
-        for (int i = 0; i < frames.size() && i < 10; i++) {
+        for (int i = 0; i < frames.size() && i < MAX_FRAMES; i++) {
             if (frames.get(i).isSpare()) {
                 bonus += frames.get(i + 1).getFirst();
             } else if (frames.get(i).isStrike()) {
